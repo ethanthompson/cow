@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+		<title>Church or Weed Game</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+
+<body>
+		<div id="rulesModal" class="modal">
+				<div class="modal-content">
+						<span class="close-button">&times;</span>
+						<h1>Welcome to the game "Church or Weed"!</h1>
+						<p><strong>Here is how it works:</strong></p>
+						<ul>
+								<li>An image of building or sign will be shown for 10 seconds.</li>
+								<li>After the 10 seconds, you guess whether the subject serves up a sermon or some dank bud.</li>
+								<li>Correct guesses increase your score by 1, incorrect guesses decrease your score by 1.</li>
+						</ul>
+				</div>
+		</div>
+
+		<div class="game">
+				<div class="game__image"></div>
+				<div class="game__timer"></div>
+				<div class="game__score">Score: 0</div>
+				<div class="game__message animate__animated"></div>
+				<div class="game__options">
+						<button class="button button--church">Church &#x26EA;</button>
+						<button class="button button--weed">Weed &#x1F966;</button>
+				</div>
+				<button class="button button--restart" style="display: none;">Try Again?</button>
+		</div>
+		<script src="script.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.1"></script>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700");
+
+$button-font-size: 2em;
+$button-padding: 20px;
+$timer-font-size: 2em;
+$timer-padding: 10px;
+$radius: 8px;
+$modal-max-width: 400px;
+$background-color: rgba(255, 255, 255, 0.7);
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: "Figtree", sans-serif;
+	font-size: 16px;
+}
+
+body {
+	position: relative;
+}
+
+.game {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	&__image {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-size: cover;
+		background-position: center;
+		z-index: -1;
+	}
+
+	&__timer {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		font-size: $timer-font-size;
+		color: black;
+		background: $background-color;
+		padding: $timer-padding;
+		border-radius: $radius;
+		width: 100%;
+		max-width: 100px;
+		text-align: center;
+	}
+
+	&__score {
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		font-size: $timer-font-size;
+		color: black;
+		background: $background-color;
+		padding: $timer-padding;
+		border-radius: $radius;
+	}
+
+	&__message {
+		font-size: $timer-font-size;
+		z-index: 1;
+		display: none;
+		text-align: center;
+		background: $background-color;
+		color: black;
+		padding: 24px;
+		&.hinge {
+  		animation: hinge 2s;
+		}
+	}
+
+	&__options {
+		display: none;
+		justify-content: space-around;
+		width: 100%;
+		padding: 0 12px;
+		gap: 24px;
+	}
+}
+
+.button {
+	font-size: $button-font-size;
+	padding: $button-padding;
+	background-color: #333;
+	color: white;
+	border: none;
+	border-radius: $radius;
+	cursor: pointer;
+	margin: 12px;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	.modal-content {
+		background-color: #fefefe;
+		margin: 15% auto;
+		padding: 24px;
+		border: 1px solid #888;
+		border-radius: $radius;
+		width: 80%;
+		max-width: $modal-max-width;
+		li {
+			margin: 12px 0;
+		}
+	}
+
+	.close-button {
+		color: #aaaaaa;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+	}
+
+	.close-button:hover,
+	.close-button:focus {
+		color: #000;
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+@media (max-width: 768px) {
+	.game__options {
+		flex-direction: column;
+		gap: 24px;
+	}
+}

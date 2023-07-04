@@ -1,0 +1,12 @@
+[
+    {"img":"img/cow__01__W.jpg", "label":"Weed"},
+    {"img":"img/cow__02__C.jpg", "label":"Church"},
+    {"img":"img/cow__03__W.jpg", "label":"Weed"},
+    {"img":"img/cow__04__W.png", "label":"Weed"},
+    {"img":"img/cow__05__W.jpg", "label":"Weed"},
+    {"img":"img/cow__06__C.jpg", "label":"Church"},
+    {"img":"img/cow__07__W.png", "label":"Weed"},
+    {"img":"img/cow__08__C.jpg", "label":"Church"},
+    {"img":"img/cow__09__C.jpg", "label":"Church"},
+    {"img":"img/cow__10__W.jpg", "label":"Weed"}
+]
