@@ -18,7 +18,7 @@ const buttonRestart = document.querySelector(".button--restart");
 
 // Modal DOM elements
 const rulesModal = document.getElementById("rulesModal");
-const closeButton = document.querySelector(".close-button");
+const closeButtons = document.querySelectorAll(".js-close-modal");
 
 // Utility functions
 function startTimer(duration, display) {
@@ -50,7 +50,7 @@ function resetGame() {
     // Check if we have enough images left for another game
     if (remainingImages.length < 10) {
         buttonRestart.style.display = "none";
-        gameMessage.textContent = "No more images left for a new game!";
+        gameMessage.textContent = "Whoops, that's all the images we have at the moment. Thanks for playing!";
         return;
     }
     // Reset game data
@@ -69,9 +69,12 @@ buttonWeed.addEventListener("click", () => {
     checkGuess("Weed");
 });
 buttonRestart.addEventListener("click", resetGame);
-closeButton.addEventListener("click", () => {
-    rulesModal.style.display = "none";
-    startNextRound();
+
+closeButtons.forEach((closeButton) => {
+    closeButton.addEventListener("click", () => {
+      rulesModal.style.display = "none";
+      startNextRound();
+    });
 });
 
 // Check guess

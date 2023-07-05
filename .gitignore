@@ -1,1 +1,10 @@
 /.DS_Store
+
+# Ignore npm files
+node_modules/
+npm-debug.log
+package-lock.json
+package.json
+
+# Ignore prepros.config file
+prepros.config

@@ -100,6 +100,11 @@ body {
 	border-radius: $radius;
 	cursor: pointer;
 	margin: 12px;
+	&--action {
+		margin: 12px 0;
+		width: 100%;
+		background-color: darkblue;
+	}
 }
 
 .modal {

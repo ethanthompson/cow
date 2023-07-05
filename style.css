@@ -98,10 +98,11 @@ body {
   cursor: pointer;
   margin: 12px;
 }
+
 .button--action {
-  margin: 12px 0;
-  width: 100%;
   background-color: darkblue;
+  width: 100%;
+  text-align: center;
 }
 
 .modal {
