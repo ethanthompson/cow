@@ -98,11 +98,13 @@ body {
   cursor: pointer;
   margin: 12px;
 }
-
 .button--action {
-  background-color: darkblue;
+  margin: 12px 0;
   width: 100%;
-  text-align: center;
+  background-color: #576c8e;
+}
+.button--restart {
+  margin: 12px;
 }
 
 .modal {

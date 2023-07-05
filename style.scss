@@ -103,7 +103,10 @@ body {
 	&--action {
 		margin: 12px 0;
 		width: 100%;
-		background-color: darkblue;
+		background-color: #576c8e;
+	}
+	&--restart {
+		margin: 12px;
 	}
 }
 
