@@ -54,24 +54,19 @@ function startGuessPhase() {
 }
 
 function resetGame() {
-    // Check if we have enough images left for another game
-    if (remainingImages.length < 10) {
-        buttonRestart.style.display = "none";
-        gameMessage.textContent = "Whoops, that's all the images we have at the moment. Thanks for playing!";
-        return;
-    }
-    // Reset game data
     currentRound = 0;
     score = 0;
     gameScore.textContent = `Score: ${score}`;
     buttonRestart.style.display = "none";
+    buttonRestart.textContent = "Restart";
     
-    // Refill remainingImages if it's empty
-    if (remainingImages.length === 0) {
-        remainingImages = [...gameData];
+    remainingImages = [...gameData];
+    
+    if (remainingImages.length < ROUNDS_PER_SET) {
+        gameMessage.textContent = "Whoops, that's all the images we have at the moment. Thanks for playing!";
+        return;
     }
     
-    // Preload the first image before starting
     preloadNextImage();
     startNextRound();
 }
@@ -80,6 +75,8 @@ function resetGame() {
 let nextImage = null;
 let preloadedImage = null;
 let isProMode = false;
+let currentSet = 0;
+const ROUNDS_PER_SET = 10;
 
 // Modify the startNextRound function
 function startNextRound() {
@@ -87,6 +84,13 @@ function startNextRound() {
     gameMessage.classList.remove("animate__shakeX");
     gameOptions.style.display = "none";
     gameMessage.style.display = "none";
+
+    if (remainingImages.length === 0) {
+        // No more images, end the game
+        gameMessage.textContent = `Game over! Your final score is: ${score}`;
+        buttonRestart.style.display = "block";
+        return;
+    }
 
     if (preloadedImage) {
         // Use the preloaded image
@@ -137,29 +141,83 @@ function loadAndStartRound() {
     img.src = currentImage.img;
 }
 
-// Modify the resetGame function to start preloading
-function resetGame() {
-    // Check if we have enough images left for another game
-    if (remainingImages.length < 10) {
-        buttonRestart.style.display = "none";
-        gameMessage.textContent = "Whoops, that's all the images we have at the moment. Thanks for playing!";
-        return;
-    }
-    // Reset game data
-    currentRound = 0;
-    score = 0;
-    gameScore.textContent = `Score: ${score}`;
-    buttonRestart.style.display = "none";
-    
-    // Refill remainingImages if it's empty
-    if (remainingImages.length === 0) {
-        remainingImages = [...gameData];
-    }
-    
-    // Preload the first image before starting
-    preloadNextImage();
-    startNextRound();
+// Add this function
+function skipTimer() {
+    clearInterval(timerId);
+    skippedTimer = true;
+    startGuessPhase();
 }
+
+// Check guess
+function checkGuess(guess) {
+    gameOptions.style.display = "none";
+    if (guess === currentImage.label) {
+        score += skippedTimer ? 1.5 : 1;
+        gameMessage.textContent = "Correct!";
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            decay: 0.95,
+            lifetime: 1.5
+        });
+    } else {
+        score--;
+        gameMessage.textContent = "Incorrect!";
+        gameMessage.classList.add("animate__shakeX");
+    }
+    gameScore.textContent = `Score: ${score}`;
+    gameMessage.style.display = "block";
+    currentRound++;
+
+    setTimeout(() => {
+        confetti.reset();
+        if (currentRound % ROUNDS_PER_SET === 0) {
+            endSet();
+        } else {
+            startNextRound();
+        }
+    }, 2000);
+}
+
+// Add this function
+function endSet() {
+    let currentSet = Math.floor(currentRound / ROUNDS_PER_SET);
+    gameMessage.textContent = `Round complete! Your current score is: ${score}`;
+    buttonRestart.textContent = "Continue";
+    buttonRestart.style.display = "block";
+    
+    // Check if we have enough images for another set
+    if (remainingImages.length < ROUNDS_PER_SET) {
+        if (gameData.length - currentRound >= ROUNDS_PER_SET) {
+            // Refill remainingImages for the next set
+            remainingImages = gameData.slice(currentRound);
+        } else {
+            buttonRestart.style.display = "none";
+            gameMessage.textContent += "\n\nWhoops, that's all the images we have at the moment. Thanks for playing!";
+        }
+    }
+}
+
+// Add this function
+function startGame(proMode = false) {
+    isProMode = proMode;
+    rulesModal.style.display = "none";
+    resetGame();
+}
+
+// Add event listeners
+const buttonStartGame = document.querySelector('.js-start-game');
+buttonStartGame.addEventListener('click', () => startGame(false));
+buttonProMode.addEventListener('click', () => startGame(true));
+
+// Modify the buttonRestart event listener
+buttonRestart.addEventListener("click", () => {
+    if (buttonRestart.textContent === "Continue") {
+        startNextRound();
+    } else {
+        resetGame();
+    }
+});
 
 // Modify the fetch callback to preload the first image
 fetch("data.json")
@@ -199,54 +257,3 @@ closeButtons.forEach((closeButton) => {
 });
 
 buttonProMode.addEventListener('click', toggleProMode);
-
-// Add this function
-function skipTimer() {
-    clearInterval(timerId);
-    skippedTimer = true;
-    startGuessPhase();
-}
-
-// Check guess
-function checkGuess(guess) {
-    gameOptions.style.display = "none";
-    // No need to hide skip button here as it's already hidden in startGuessPhase
-    if (guess === currentImage.label) {
-        score += skippedTimer ? 1.5 : 1;
-        gameMessage.textContent = "Correct!";
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            decay: 0.95,  // Increased decay for faster disappearance
-            lifetime: 1.5  // Limit confetti lifetime to 1.5 seconds
-        });
-    } else {
-        score--;
-        gameMessage.textContent = "Incorrect!";
-        gameMessage.classList.add("animate__shakeX");
-    }
-    gameScore.textContent = `Score: ${score}`;
-    gameMessage.style.display = "block";
-    currentRound++;
-    if (currentRound === 10) {
-        gameMessage.textContent = `Game over! Your final score is: ${score}`;
-        buttonRestart.style.display = "block";
-    } else {
-        setTimeout(() => {
-            confetti.reset();  // Clear any remaining confetti
-            startNextRound();
-        }, 2000);
-    }
-}
-
-// Add this function
-function startGame(proMode = false) {
-    isProMode = proMode;
-    rulesModal.style.display = "none";
-    resetGame();
-}
-
-// Add event listeners
-const buttonStartGame = document.querySelector('.js-start-game');
-buttonStartGame.addEventListener('click', () => startGame(false));
-buttonProMode.addEventListener('click', () => startGame(true));
