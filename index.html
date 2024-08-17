@@ -10,31 +10,36 @@
 </head>
 <body class="h-full m-0 p-0 relative font-sans text-base">
     <div id="rulesModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center">
-        <div class="bg-white p-6 border border-gray-300 rounded-lg w-4/5 max-w-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <span class="absolute top-2 right-2 text-2xl font-bold text-gray-400 cursor-pointer hover:text-black js-close-modal">&times;</span>
-            <h1 class="text-2xl font-bold mb-4">Welcome to the game "Church or Weed"!</h1>
-            <p class="font-bold mb-2">Here is how it works:</p>
-            <ul class="list-disc pl-5 mb-4">
-                <li class="my-3">You have 5 seconds to guess if the image depicts a church or a dispensary.</li>
-                <li class="my-3">Bonus points for guessing in the first two seconds.</li>
-            </ul>
-            <button class="w-full text-2xl py-5 bg-button-blue text-white rounded-lg cursor-pointer js-close-modal">Start Game</button>
+        <div class="bg-white p-6 border-2 border-black rounded-lg w-4/5 max-w-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-[4px_4px_0_0_#000]">
+            <h1 class="text-2xl font-bold mb-6">Welcome to "Church or Weed"!</h1>
+            <p class="mb-5">You have 5 seconds to guess if the image shows a church or a dispensary.</p>
+            <p class="mb-5 text-sm">P.S. Quick guesses in the first two seconds earn bonus points!</p>
+            <button class="button-custom button-custom-blue w-full js-close-modal mt-4">Start Game</button>
+            <p class="text-xs text-center mt-8 mx-auto">Made with 🍻 by <a href="https://ethanthompson.org" class="text-blue-600 hover:underline" target="_blank">Ethan Thompson</a></p>
         </div>
     </div>
 
-    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-hidden">
+    <header class="fixed top-0 left-0 w-full flex items-center justify-between flex-wrap h-[60px] bg-white border-b-2 border-gray-300 px-4 z-10">
+        <div class="game__score text-xl">Score: 0</div>
+        <div class="game__timer text-xl">Time: 0</div>
+    </header>
+
+    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-hidden pt-[60px]">
         <div class="absolute inset-0 bg-cover bg-center -z-10 game__image"></div>
-        <div class="absolute top-5 right-5 text-xl text-black bg-white bg-opacity-70 px-4 py-2.5 rounded-lg text-center game__timer min-w-[80px]"></div>
-        <div class="absolute top-5 left-5 text-xl text-black bg-white bg-opacity-70 px-4 py-2.5 rounded-lg game__score">Score: 0</div>
-        <div class="text-2xl z-10 hidden text-center bg-white bg-opacity-90 text-black p-6 game__message animate__animated"></div>
+        <div class="text-2xl z-10 hidden text-center bg-white text-black p-4 rounded-lg shadow-md border-2 border-black game__message animate__animated">
+
+        </div>
         <div class="w-full px-3 game__options absolute bottom-10">
             <div class="flex flex-col sm:flex-row justify-center items-center gap-6 w-full">
-                <button class="text-2xl py-5 px-5 bg-gray-800 text-white rounded-lg cursor-pointer w-full sm:w-[30%] button button--church">Church &#x26EA;</button>
-                <button class="text-2xl py-5 px-5 bg-gray-800 text-white rounded-lg cursor-pointer w-full sm:w-[30%] button button--weed">Weed &#x1F966;</button>
+                <button class="button-custom button-custom-gray w-full sm:w-[30%] button--church">Church &#x26EA;</button>
+                <button class="button-custom button-custom-gray w-full sm:w-[30%] button--weed">Weed &#x1F966;</button>
             </div>
         </div>
-        <div class="w-full px-3 flex justify-center mt-8">
-            <button class="hidden text-2xl py-5 px-5 bg-button-blue text-white rounded-lg cursor-pointer w-full sm:w-[30%] button button--restart">Start Next Round</button>
+        <div class="w-full px-3 flex justify-center mt-4">
+            <button class="hidden button-custom button-custom-blue w-full sm:w-[30%] button--restart">Start Next Round</button>
+        </div>
+        <div class="w-full px-3 flex justify-center mt-4">
+            <a href="YOUR_FORM_URL_HERE" class="hidden button-custom button-custom-green w-full sm:w-[30%] button--submit">Submit a Church or Dispensary</a>
         </div>
     </div>
     <script src="script.js"></script>

@@ -12,6 +12,7 @@ let currentImage = null;
 const IMAGES_PER_ROUND = 10;
 const GUESS_TIME = 5000; // 5 seconds per guess
 const QUICK_GUESS_TIME = 2000; // 2 seconds for bonus points
+const DEFAULT_BACKGROUND = 'img/default.jpg'; // Added this line
 
 // DOM elements
 const gameImage = document.querySelector(".game__image");
@@ -49,6 +50,9 @@ function resetGame() {
     score = 0;
     gameScore.textContent = `Score: ${score}`;
     buttonRestart.style.display = "none";
+    
+    // Set the default background image
+    gameImage.style.backgroundImage = `url(${DEFAULT_BACKGROUND})`;
     
     if (allImages.length < IMAGES_PER_ROUND) {
         gameMessage.textContent = "Not enough images to play. Please check data.json.";
@@ -173,9 +177,12 @@ function endRound() {
 }
 
 function endGame() {
-    gameMessage.textContent = `Whoops, that's all the images we have at the moment. Thanks for playing! Your final score is: ${score}`;
+    gameMessage.innerHTML = `That's all the images we have at the moment. Thanks for playing! Your final score is: ${score}<br><br>Psst. Know of a church or dispensary that would fit this game? <a href="https://ethanthompson705282.typeform.com/to/ux1PUERb" class="text-blue-600 hover:underline" target="_blank">Tell us about it!</a>`;
     buttonRestart.style.display = "none";
     gameMessage.style.display = "block";
+    
+    // Set the default background image when the game ends
+    gameImage.style.backgroundImage = `url(${DEFAULT_BACKGROUND})`;
 }
 
 // Fetch data and start game
