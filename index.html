@@ -1,48 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
-    <title>Church or Weed Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play the hilarious 'Church or Weed' game! Guess if images show churches or weed dispensaries. Test your observation skills and have fun in this unique, timed guessing game.">
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8">
+  <title>Church or Weed?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play the hilarious 'Church or Weed' game! Guess if images show churches or weed dispensaries. Test your observation skills and have fun in this unique, timed guessing game.">
+  <meta name="theme-color" content="#14171f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
 </head>
-<body class="h-full m-0 p-0 relative font-sans text-base">
-    <div id="rulesModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center">
-        <div class="bg-white p-6 border-2 border-black rounded-lg w-4/5 max-w-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-[4px_4px_0_0_#000]">
-            <h1 class="text-2xl font-bold mb-6">Welcome to "Church or Weed"!</h1>
-            <p class="mb-5">You have 5 seconds to guess if the image shows a church or a dispensary.</p>
-            <p class="mb-5 text-sm">P.S. Quick guesses in the first two seconds earn bonus points!</p>
-            <button class="button-custom button-custom-blue w-full js-close-modal mt-4">Start Game</button>
-            <p class="text-xs text-center mt-8 mx-auto">Made with 🍻 by <a href="https://ethanthompson.org" class="text-blue-600 hover:underline" target="_blank">Ethan Thompson</a></p>
-        </div>
+<body>
+  <div id="app" class="app">
+
+    <div class="modal" id="rulesModal" aria-hidden="true">
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+        <h1 id="rulesTitle" class="modal__title">Church or Weed?</h1>
+        <p class="modal__text">You've got <strong>5 seconds</strong> per image to guess which is which.</p>
+        <p class="modal__text modal__text--muted">Answer within the first 2 seconds for bonus points.</p>
+        <button class="btn btn--primary btn--block" id="startBtn">Start Game</button>
+        <p class="modal__credit">Made with 🍻 by <a href="https://ethanthompson.org" target="_blank" rel="noopener">Ethan Thompson</a></p>
+      </div>
     </div>
 
-    <header class="fixed top-0 left-0 w-full flex items-center justify-between flex-wrap h-[60px] bg-white border-b-2 border-gray-300 px-4 z-10">
-        <div class="game__score text-xl">Score: 0</div>
-        <div class="game__timer text-xl">Time: 0</div>
+    <header class="hud">
+      <div class="hud__stat">
+        <span class="hud__label">Score</span>
+        <span class="hud__value" id="scoreValue">0</span>
+      </div>
+      <div class="hud__progress" id="progressLabel">Round 1</div>
+      <div class="hud__stat hud__stat--streak" id="streakStat" hidden>
+        <span class="hud__label">Streak</span>
+        <span class="hud__value" id="streakValue">0</span>
+      </div>
     </header>
 
-    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-hidden pt-[60px]">
-        <div class="absolute inset-0 bg-cover bg-center -z-10 game__image"></div>
-        <div class="text-2xl z-10 hidden text-center bg-white text-black p-4 rounded-lg shadow-md border-2 border-black game__message animate__animated">
+    <main class="stage">
+      <div class="stage__timer" id="stageTimer">
+        <div class="stage__timer-fill" id="timerFill"></div>
+      </div>
 
-        </div>
-        <div class="w-full px-3 game__options absolute bottom-10">
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 w-full">
-                <button class="button-custom button-custom-gray w-full sm:w-[30%] button--church">Church &#x26EA;</button>
-                <button class="button-custom button-custom-gray w-full sm:w-[30%] button--weed">Weed &#x1F966;</button>
-            </div>
-        </div>
-        <div class="w-full px-3 flex justify-center mt-4">
-            <button class="hidden button-custom button-custom-blue w-full sm:w-[30%] button--restart">Start Next Round</button>
-        </div>
-        <div class="w-full px-3 flex justify-center mt-4">
-            <a href="YOUR_FORM_URL_HERE" class="hidden button-custom button-custom-green w-full sm:w-[30%] button--submit">Submit a Church or Dispensary</a>
-        </div>
-    </div>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.1"></script>
+      <div class="stage__image" id="stageImage"></div>
+      <div class="stage__scrim"></div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+      <div class="options" id="options" aria-label="Your guess" hidden></div>
+
+      <div class="panel" id="roundEndPanel" hidden>
+        <h2 class="panel__title" id="roundEndTitle"></h2>
+        <p class="panel__text" id="roundEndBody"></p>
+        <button class="btn btn--primary btn--block" id="nextRoundBtn">Start Next Round</button>
+      </div>
+
+      <div class="panel" id="gameEndPanel" hidden>
+        <h2 class="panel__title">That's all for now!</h2>
+        <p class="panel__text" id="finalStats"></p>
+        <a class="btn btn--secondary btn--block" id="submitLink" href="https://ethanthompson705282.typeform.com/to/ux1PUERb" target="_blank" rel="noopener">Submit a Church or Dispensary</a>
+        <button class="btn btn--primary btn--block" id="playAgainBtn">Play Again</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
